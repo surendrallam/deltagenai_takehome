@@ -1,0 +1,156 @@
+# DeltagenAI- take home
+
+**Objective**: Create a workflow to extract data from a CSV file containing leads and generate personalized emails for each lead using two different LLMs. Compare the outputs from both LLMs and determine which one is better for sending. Implement orchestration for managing the workflow and explore Multi-Objective Reinforcement Learning (MORL) for optimizing the email content.
+
+### Task Outline
+
+**Architecture**
+
+1. **Input Layer**
+    - **CSV File**: Use the provided CSV file containing a list of leads. Each lead includes details such as name, email address, company, job title, and any other relevant information.
+2. **Processing Layer**
+    - **Data Extraction Agent**: Extract lead data from the CSV file.
+    - **Email Construction Agent 1**: Use the first LLM to generate personalized outreach emails based on the extracted lead data.
+    - **Email Construction Agent 2**: Use the second LLM to generate personalized outreach emails based on the extracted lead data.
+    - **Quality Check Agent**: Compare the outputs from both LLMs and determine which one is better for sending.
+3. **Output Layer**
+    - **File Storage**: Store the generated emails from both LLMs in a file (e.g., CSV, JSON) for review, along with the comparison results.
+
+### Workflow Steps
+
+1. **Data Extraction**
+    - **Step 1.1**: Load CSV File
+        - **Action**: Load the provided CSV file containing lead information.
+            
+            [sample_leads_10.csv](https://prod-files-secure.s3.us-west-2.amazonaws.com/4a5fa766-571a-4f0c-b7f2-9e2ef67e3e21/1b6d173a-74bf-4227-a446-ff45f35df917/sample_leads_10.csv)
+            
+    - **Step 1.2**: Extract Lead Data
+        - **Action**: Extract relevant details for each lead from the CSV file, such as name, email, company, and job title.
+2. **Email Construction**
+    - **Step 2.1**: Template Selection
+        - **Action**: Define a basic email template for cold and warm outreach.
+    - **Step 2.2**: Personalization with LLMs
+        - **Action**: Use the first LLM to fill in the template with personalized content for each lead.
+        - **Action**: Use the second LLM to fill in the template with personalized content for each lead.
+    - **Step 2.3**: Quality Check
+        - **Action**: Compare the personalized emails from both LLMs based on predefined criteria (e.g., relevance, tone, engagement potential).
+        - **Action**: Determine which email is better for sending.
+3. **Output Generation**
+    - **Step 3.1**: Store Emails
+        - **Action**: Store the personalized emails from both LLMs in a file (e.g., CSV, JSON) for review. Each entry should include the lead's details, both generated emails, and the comparison results.
+
+### Bonus Tasks for Extra Consideration
+
+1. **Implement Orchestration**
+    - **Action**: Implement an orchestrated agent to manage and coordinate the workflow among all agents.
+    - **Example**: The orchestrated agent should ensure seamless data flow and task execution across the data extraction, email construction, and quality check agents.
+2. **Explore Multi-Objective Reinforcement Learning (MORL)**
+    - **Action**: Explore the application of MORL to optimize email content based on multiple objectives (e.g., open rate, click-through rate, response rate).
+    - **Example**: Implement a basic MORL framework to adjust and optimize the email content iteratively based on feedback from previous email campaigns.
+
+### Example Workflow
+
+1. **Data Extraction**
+    - **Step 1.1**: Load CSV File
+        - **Action**: Load a CSV file with columns: Name, Email, Company, Job Title, etc.
+    - **Step 1.2**: Extract Lead Data
+        - **Example**: Extract data for a lead such as:
+            - Name: Jane Doe
+            - Email: [jane.doe@example.com](mailto:jane.doe@example.com)
+            - Company: Tech Solutions Inc.
+            - Job Title: Procurement Manager
+2. **Email Construction**
+    - **Step 2.1**: Template Selection
+        - **Example Template**:
+            
+            ```
+            Subject: Introducing [Product/Service] to Improve [Relevant Aspect]
+            
+            Hi [Name],
+            
+            I hope this email finds you well. My name is [Your Name], and I am reaching out to you from [Your Company]. I noticed that you are the [Job Title] at [Company], and I wanted to share how our [Product/Service] can help you with [specific challenge or opportunity relevant to the lead's role].
+            
+            [Personalized message based on the lead's company or job title]
+            
+            I'd love to discuss this further and see how we can assist you. Please let me know if you're available for a quick call next week.
+            
+            Best regards,
+            [Your Name]
+            
+            ```
+            
+    - **Step 2.2**: Personalization with LLMs
+        - **Action**: Use LLM 1 to generate a personalized email for Jane Doe.
+        - **Example with LLM 1**:
+            
+            ```
+            Subject: Introducing Innovative Procurement Solutions
+            
+            Hi Jane,
+            
+            I hope this email finds you well. My name is John Smith, and I am reaching out to you from Innovation Tech. I noticed that you are the Procurement Manager at Tech Solutions Inc., and I wanted to share how our procurement software can help you streamline your purchasing processes and reduce costs.
+            
+            At Tech Solutions Inc., managing a large volume of suppliers and ensuring timely procurement is crucial. Our software offers advanced analytics and automation to help you make informed decisions quickly.
+            
+            I'd love to discuss this further and see how we can assist you. Please let me know if you're available for a quick call next week.
+            
+            Best regards,
+            John Smith
+            
+            ```
+            
+        - **Action**: Use LLM 2 to generate a personalized email for Jane Doe.
+        - **Example with LLM 2**:
+            
+            ```
+            Subject: Enhance Your Procurement Efficiency
+            
+            Hi Jane,
+            
+            I hope this message finds you well. My name is Emily Brown, and I represent Efficiency Experts. I noticed your role as Procurement Manager at Tech Solutions Inc. and thought you might be interested in our latest procurement software designed to optimize your processes and reduce costs.
+            
+            Given Tech Solutions Inc.'s need to manage a large number of suppliers efficiently, our solution offers real-time analytics and automated workflows to enhance your decision-making process.
+            
+            I'd love to schedule a brief call to discuss how we can support your procurement goals. Let me know your availability next week.
+            
+            Best regards,
+            Emily Brown
+            
+            ```
+            
+3. **Quality Check**
+    - **Step 2.3**: Comparison
+        - **Action**: Compare both emails based on criteria like relevance, tone, and engagement potential.
+        - **Example**: Determine that LLM 1's email is more relevant and engaging for Jane Doe.
+4. **Output Generation**
+    - **Step 3.1**: Store Emails
+        - **Action**: Store both generated emails along with the comparison result in a file.
+        - **Example Entry**:
+            
+            ```json
+            {
+                "name": "Jane Doe",
+                "email": "jane.doe@example.com",
+                "company": "Tech Solutions Inc.",
+                "job_title": "Procurement Manager",
+                "email_llm_1": "Subject: Introducing Innovative Procurement Solutions...\\nHi Jane,...",
+                "email_llm_2": "Subject: Enhance Your Procurement Efficiency...\\nHi Jane,...",
+                "selected_email": "LLM 1"
+            }
+            
+            ```
+            
+
+**Instructions:**
+
+1. Implement the architecture and workflow steps described above.
+2. Use two LLMs of your choice to generate the personalized emails.
+3. Document your code and provide a README file explaining your approach and how to run your solution.
+4. Submit your solution as a GitHub repository link.
+
+**Evaluation Criteria:**
+
+- **Completeness**: How well the solution covers the entire workflow from data extraction to email generation and comparison.
+- **Code Quality**: Clarity, organization, and documentation of the code.
+- **Functionality**: How well the solution works, including the accuracy and relevance of the personalized emails.
+- **Innovation**: Effective implementation of orchestration and exploration of MORL for email optimization.
